@@ -1,0 +1,44 @@
+# ROS 2 / colcon
+build/
+install/
+log/
+
+# Gazebo
+.gz/
+.gazebo/
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Runtime output
+logs/
+results/
+*.log
+
+# Temporary simulation files
+*.tmp
+*.bak
+
+# Large exported CAD intermediates
+*.FCStd1
+*.blend1
