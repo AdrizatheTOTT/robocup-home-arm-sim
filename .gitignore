@@ -42,3 +42,11 @@ results/
 # Large exported CAD intermediates
 *.FCStd1
 *.blend1
+
+# ROS 2 workspace generated files
+ros2_ws/build/
+ros2_ws/install/
+ros2_ws/log/
+
+# Extracted source archive used during import
+source_cad/

@@ -1,0 +1,448 @@
+<?xml version="1.0"?>
+<!-- robothath : complete robot, generated from robothath.step
+     STEP was millimetres; everything below is metres / kg / radians.
+     Two identical limbs, mirrored about the CAD plane Y = 261.8 mm (0.5236 m apart).
+     base_link frame == the CAD world origin, so every number here can be
+     read straight off the Fusion model.
+
+     Joint AXES and POSITIONS were measured from the cylindrical motor bores.
+     Joint LIMITS, the gripper actuation type and the chassis mass are assumptions. -->
+<robot name="robothath">
+
+  <material name="grey">  <color rgba="0.55 0.57 0.60 1"/></material>
+  <material name="orange"><color rgba="0.78 0.35 0.15 1"/></material>
+  <material name="steel"> <color rgba="0.18 0.40 0.56 1"/></material>
+  <material name="dark">  <color rgba="0.25 0.27 0.30 1"/></material>
+
+  <!-- Massless dummy root. KDL cannot carry an inertia on the root link, so the
+       chassis inertia would be silently dropped if base_link were the root.
+       base_footprint holds no mass; base_link keeps the real chassis inertia. -->
+  <link name="base_footprint"/>
+
+  <joint name="base_footprint_joint" type="fixed">
+    <parent link="base_footprint"/>
+    <child  link="base_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Chassis. The CAD body is a solid 1500x300x200 block, which as solid
+       aluminium would be 197 kg. Overridden to 20 kg
+       (~5 mm wall shell). Change this to your real chassis mass. -->
+  <link name="base_link">
+    <visual>
+      <geometry><mesh filename="package://robothath_description/meshes/base_link.stl"/></geometry>
+      <material name="dark"/>
+    </visual>
+    <collision>
+      <geometry><mesh filename="package://robothath_description/meshes/base_link.stl"/></geometry>
+    </collision>
+    <inertial>
+      <origin xyz="-0.59917 0.26181 -0.00791" rpy="0 0 0"/>
+      <mass value="20.0000"/>
+      <inertia ixx="0.189936" ixy="0.000000" ixz="-0.001891" iyy="3.346280" iyz="0.000000" izz="3.401775"/>
+    </inertial>
+  </link>
+
+  <!-- ================= LEFT LIMB ================= -->
+  <joint name="l_base_mount_joint" type="fixed">
+    <parent link="base_link"/>
+    <child  link="l_motor_mount"/>
+    <origin xyz="0 0.0000 0" rpy="0 0 0"/>
+  </joint>
+  <link name="l_motor_mount">
+    <visual>
+      <geometry><mesh filename="package://robothath_description/meshes/l_motor_mount.stl"/></geometry>
+      <material name="grey"/>
+    </visual>
+    <collision>
+      <geometry><mesh filename="package://robothath_description/meshes/l_motor_mount.stl"/></geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0.00000 0.00005 -0.00172" rpy="0 0 0"/>
+      <mass value="0.4243"/>
+      <inertia ixx="0.000181" ixy="0.000000" ixz="0.000000" iyy="0.000182" iyz="0.000000" izz="0.000285"/>
+    </inertial>
+  </link>
+
+  <!-- J1 yaw : axis Z, from motor bore r=44.9 at CAD (0,0,15) -->
+  <joint name="l_base_yaw_joint" type="revolute">
+    <parent link="l_motor_mount"/>
+    <child  link="l_yaw_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-3.1416" upper="3.1416" effort="40" velocity="3.0"/>
+  </joint>
+  <link name="l_yaw_link">
+    <visual>
+      <geometry><mesh filename="package://robothath_description/meshes/l_yaw_link.stl"/></geometry>
+      <material name="orange"/>
+    </visual>
+    <collision>
+      <geometry><mesh filename="package://robothath_description/meshes/l_yaw_link.stl"/></geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0.00377 0.05427 -0.02738" rpy="0 0 0"/>
+      <mass value="1.4721"/>
+      <inertia ixx="0.001939" ixy="0.000005" ixz="-0.000016" iyy="0.001448" iyz="0.000037" izz="0.001804"/>
+    </inertial>
+  </link>
+
+  <!-- J2 shoulder pitch : axis Y, from motor bore r=38 at CAD (-0.7,100.3,-24.5) -->
+  <joint name="l_shoulder_pitch_joint" type="revolute">
+    <parent link="l_yaw_link"/>
+    <child  link="l_upper_arm_link"/>
+    <origin xyz="0 0 -0.025" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-2.0944" upper="2.0944" effort="40" velocity="3.0"/>
+  </joint>
+  <link name="l_upper_arm_link">
+    <visual>
+      <geometry><mesh filename="package://robothath_description/meshes/l_upper_arm_link.stl"/></geometry>
+      <material name="steel"/>
+    </visual>
+    <collision>
+      <geometry><mesh filename="package://robothath_description/meshes/l_upper_arm_link.stl"/></geometry>
+    </collision>
+    <inertial>
+      <origin xyz="-0.22785 0.00304 -0.00424" rpy="0 0 0"/>
+      <mass value="2.3086"/>
+      <inertia ixx="0.003372" ixy="-0.000011" ixz="0.000004" iyy="0.003511" iyz="0.000013" izz="0.003458"/>
+    </inertial>
+  </link>
+
+  <!-- J3 elbow pitch : axis Y, from motor bore r=44.9 at CAD (-342,-38.7,-25).
+       -0.342 m = measured shoulder-to-elbow distance. -->
+  <joint name="l_elbow_pitch_joint" type="revolute">
+    <parent link="l_upper_arm_link"/>
+    <child  link="l_forearm_link"/>
+    <origin xyz="-0.342 0 0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-2.6180" upper="2.6180" effort="30" velocity="3.0"/>
+  </joint>
+  <link name="l_forearm_link">
+    <visual>
+      <geometry><mesh filename="package://robothath_description/meshes/l_forearm_link.stl"/></geometry>
+      <material name="orange"/>
+    </visual>
+    <collision>
+      <geometry><mesh filename="package://robothath_description/meshes/l_forearm_link.stl"/></geometry>
+    </collision>
+    <inertial>
+      <origin xyz="-0.00042 0.00277 -0.21218" rpy="0 0 0"/>
+      <mass value="0.7675"/>
+      <inertia ixx="0.001477" ixy="-0.000000" ixz="0.000001" iyy="0.001400" iyz="0.000004" izz="0.000482"/>
+    </inertial>
+  </link>
+
+  <joint name="l_wrist_joint" type="revolute">
+    <parent link="l_forearm_link"/>
+    <child  link="l_wrist_link"/>
+    <origin xyz="0 0 -0.275" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-3.1416" upper="3.1416" effort="20" velocity="2.0"/>
+  </joint>
+  <link name="l_wrist_link">
+    <visual>
+      <geometry><box size="0.04 0.05 0.06"/></geometry>
+      <material name="steel"/>
+    </visual>
+    <collision>
+      <geometry><box size="0.04 0.05 0.06"/></geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.1"/>
+      <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001"/>
+    </inertial>
+  </link>
+
+  <joint name="l_wrist_roll_joint" type="revolute">
+    <parent link="l_wrist_link"/>
+    <child  link="l_wrist_roll_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-3.1416" upper="3.1416" effort="20" velocity="2.0"/>
+  </joint>
+  <link name="l_wrist_roll_link">
+    <visual>
+      <geometry><box size="0.03 0.03 0.03"/></geometry>
+      <material name="orange"/>
+    </visual>
+    <collision>
+      <geometry><box size="0.03 0.03 0.03"/></geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.08"/>
+      <inertia ixx="0.00005" ixy="0.0" ixz="0.0" iyy="0.00005" iyz="0.0" izz="0.00005"/>
+    </inertial>
+  </link>
+
+  <joint name="l_gripper_mount_joint" type="fixed">
+    <parent link="l_wrist_roll_link"/>
+    <child  link="l_gripper_base"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+  <link name="l_gripper_base">
+    <visual>
+      <geometry><mesh filename="package://robothath_description/meshes/l_gripper_base.stl"/></geometry>
+      <material name="dark"/>
+    </visual>
+    <collision>
+      <geometry><mesh filename="package://robothath_description/meshes/l_gripper_base.stl"/></geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0.00260 0.00526 -0.08510" rpy="0 0 0"/>
+      <mass value="0.9586"/>
+      <inertia ixx="0.001854" ixy="-0.000000" ixz="-0.000000" iyy="0.000447" iyz="-0.000000" izz="0.001879"/>
+    </inertial>
+  </link>
+
+  <!-- ASSUMPTION: parallel-jaw fingers. No bearing bore exists for these in the CAD. -->
+  <joint name="l_finger_inner_joint" type="prismatic">
+    <parent link="l_gripper_base"/>
+    <child  link="l_finger_inner"/>
+    <origin xyz="0.003 0.0223 -0.130" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="0.0" upper="0.025" effort="20" velocity="0.1"/>
+  </joint>
+  <link name="l_finger_inner">
+    <visual>
+      <geometry><mesh filename="package://robothath_description/meshes/l_finger_inner.stl"/></geometry>
+      <material name="steel"/>
+    </visual>
+    <collision>
+      <geometry><mesh filename="package://robothath_description/meshes/l_finger_inner.stl"/></geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0.00042 0.00001 -0.03766" rpy="0 0 0"/>
+      <mass value="0.3767"/>
+      <inertia ixx="0.000316" ixy="0.000003" ixz="-0.000019" iyy="0.000334" iyz="-0.000019" izz="0.000116"/>
+    </inertial>
+  </link>
+
+  <joint name="l_finger_outer_joint" type="prismatic">
+    <parent link="l_gripper_base"/>
+    <child  link="l_finger_outer"/>
+    <origin xyz="0.003 -0.0175 -0.130" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="0.0" upper="0.025" effort="20" velocity="0.1"/>
+    <mimic joint="l_finger_inner_joint" multiplier="1.0" offset="0.0"/>
+  </joint>
+  <link name="l_finger_outer">
+    <visual>
+      <geometry><mesh filename="package://robothath_description/meshes/l_finger_outer.stl"/></geometry>
+      <material name="steel"/>
+    </visual>
+    <collision>
+      <geometry><mesh filename="package://robothath_description/meshes/l_finger_outer.stl"/></geometry>
+    </collision>
+    <inertial>
+      <origin xyz="-0.00035 -0.00002 -0.03766" rpy="0 0 0"/>
+      <mass value="0.3767"/>
+      <inertia ixx="0.000316" ixy="0.000003" ixz="0.000019" iyy="0.000334" iyz="0.000019" izz="0.000116"/>
+    </inertial>
+  </link>
+
+  <!-- ================= RIGHT LIMB ================= -->
+  <joint name="r_base_mount_joint" type="fixed">
+    <parent link="base_link"/>
+    <child  link="r_motor_mount"/>
+    <origin xyz="0 0.5236 0" rpy="0 0 0"/>
+  </joint>
+  <link name="r_motor_mount">
+    <visual>
+      <geometry><mesh filename="package://robothath_description/meshes/r_motor_mount.stl"/></geometry>
+      <material name="grey"/>
+    </visual>
+    <collision>
+      <geometry><mesh filename="package://robothath_description/meshes/r_motor_mount.stl"/></geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0.00000 -0.00004 -0.00172" rpy="0 0 0"/>
+      <mass value="0.4243"/>
+      <inertia ixx="0.000181" ixy="-0.000000" ixz="0.000000" iyy="0.000182" iyz="-0.000000" izz="0.000285"/>
+    </inertial>
+  </link>
+
+  <!-- J1 yaw : axis Z, from motor bore r=44.9 at CAD (0,0,15) -->
+  <joint name="r_base_yaw_joint" type="revolute">
+    <parent link="r_motor_mount"/>
+    <child  link="r_yaw_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-3.1416" upper="3.1416" effort="40" velocity="3.0"/>
+  </joint>
+  <link name="r_yaw_link">
+    <visual>
+      <geometry><mesh filename="package://robothath_description/meshes/r_yaw_link.stl"/></geometry>
+      <material name="orange"/>
+    </visual>
+    <collision>
+      <geometry><mesh filename="package://robothath_description/meshes/r_yaw_link.stl"/></geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0.00377 -0.05425 -0.02738" rpy="0 0 0"/>
+      <mass value="1.4721"/>
+      <inertia ixx="0.001939" ixy="-0.000005" ixz="-0.000016" iyy="0.001448" iyz="-0.000037" izz="0.001804"/>
+    </inertial>
+  </link>
+
+  <!-- J2 shoulder pitch : axis Y, from motor bore r=38 at CAD (-0.7,100.3,-24.5) -->
+  <joint name="r_shoulder_pitch_joint" type="revolute">
+    <parent link="r_yaw_link"/>
+    <child  link="r_upper_arm_link"/>
+    <origin xyz="0 0 -0.025" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-2.0944" upper="2.0944" effort="40" velocity="3.0"/>
+  </joint>
+  <link name="r_upper_arm_link">
+    <visual>
+      <geometry><mesh filename="package://robothath_description/meshes/r_upper_arm_link.stl"/></geometry>
+      <material name="steel"/>
+    </visual>
+    <collision>
+      <geometry><mesh filename="package://robothath_description/meshes/r_upper_arm_link.stl"/></geometry>
+    </collision>
+    <inertial>
+      <origin xyz="-0.22785 -0.00303 -0.00424" rpy="0 0 0"/>
+      <mass value="2.3086"/>
+      <inertia ixx="0.003372" ixy="0.000011" ixz="0.000004" iyy="0.003511" iyz="-0.000013" izz="0.003458"/>
+    </inertial>
+  </link>
+
+  <!-- J3 elbow pitch : axis Y, from motor bore r=44.9 at CAD (-342,-38.7,-25).
+       -0.342 m = measured shoulder-to-elbow distance. -->
+  <joint name="r_elbow_pitch_joint" type="revolute">
+    <parent link="r_upper_arm_link"/>
+    <child  link="r_forearm_link"/>
+    <origin xyz="-0.342 0 0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-2.6180" upper="2.6180" effort="30" velocity="3.0"/>
+  </joint>
+  <link name="r_forearm_link">
+    <visual>
+      <geometry><mesh filename="package://robothath_description/meshes/r_forearm_link.stl"/></geometry>
+      <material name="orange"/>
+    </visual>
+    <collision>
+      <geometry><mesh filename="package://robothath_description/meshes/r_forearm_link.stl"/></geometry>
+    </collision>
+    <inertial>
+      <origin xyz="-0.00042 -0.00276 -0.21218" rpy="0 0 0"/>
+      <mass value="0.7675"/>
+      <inertia ixx="0.001477" ixy="0.000000" ixz="0.000001" iyy="0.001400" iyz="-0.000004" izz="0.000482"/>
+    </inertial>
+  </link>
+
+  <joint name="r_wrist_joint" type="revolute">
+    <parent link="r_forearm_link"/>
+    <child  link="r_wrist_link"/>
+    <origin xyz="0 0 -0.275" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-3.1416" upper="3.1416" effort="20" velocity="2.0"/>
+  </joint>
+  <link name="r_wrist_link">
+    <visual>
+      <geometry><box size="0.04 0.05 0.06"/></geometry>
+      <material name="steel"/>
+    </visual>
+    <collision>
+      <geometry><box size="0.04 0.05 0.06"/></geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.1"/>
+      <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001"/>
+    </inertial>
+  </link>
+
+  <joint name="r_wrist_roll_joint" type="revolute">
+    <parent link="r_wrist_link"/>
+    <child  link="r_wrist_roll_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-3.1416" upper="3.1416" effort="20" velocity="2.0"/>
+  </joint>
+  <link name="r_wrist_roll_link">
+    <visual>
+      <geometry><box size="0.03 0.03 0.03"/></geometry>
+      <material name="orange"/>
+    </visual>
+    <collision>
+      <geometry><box size="0.03 0.03 0.03"/></geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.08"/>
+      <inertia ixx="0.00005" ixy="0.0" ixz="0.0" iyy="0.00005" iyz="0.0" izz="0.00005"/>
+    </inertial>
+  </link>
+
+  <joint name="r_gripper_mount_joint" type="fixed">
+    <parent link="r_wrist_roll_link"/>
+    <child  link="r_gripper_base"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+  <link name="r_gripper_base">
+    <visual>
+      <geometry><mesh filename="package://robothath_description/meshes/r_gripper_base.stl"/></geometry>
+      <material name="dark"/>
+    </visual>
+    <collision>
+      <geometry><mesh filename="package://robothath_description/meshes/r_gripper_base.stl"/></geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0.00260 -0.00525 -0.08510" rpy="0 0 0"/>
+      <mass value="0.9586"/>
+      <inertia ixx="0.001854" ixy="0.000000" ixz="-0.000000" iyy="0.000447" iyz="0.000000" izz="0.001879"/>
+    </inertial>
+  </link>
+
+  <!-- ASSUMPTION: parallel-jaw fingers. No bearing bore exists for these in the CAD. -->
+  <joint name="r_finger_inner_joint" type="prismatic">
+    <parent link="r_gripper_base"/>
+    <child  link="r_finger_inner"/>
+    <origin xyz="0.003 -0.0223 -0.130" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="0.0" upper="0.025" effort="20" velocity="0.1"/>
+  </joint>
+  <link name="r_finger_inner">
+    <visual>
+      <geometry><mesh filename="package://robothath_description/meshes/r_finger_inner.stl"/></geometry>
+      <material name="steel"/>
+    </visual>
+    <collision>
+      <geometry><mesh filename="package://robothath_description/meshes/r_finger_inner.stl"/></geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0.00042 -0.00000 -0.03766" rpy="0 0 0"/>
+      <mass value="0.3767"/>
+      <inertia ixx="0.000316" ixy="-0.000003" ixz="-0.000019" iyy="0.000334" iyz="0.000019" izz="0.000116"/>
+    </inertial>
+  </link>
+
+  <joint name="r_finger_outer_joint" type="prismatic">
+    <parent link="r_gripper_base"/>
+    <child  link="r_finger_outer"/>
+    <origin xyz="0.003 0.0175 -0.130" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="0.0" upper="0.025" effort="20" velocity="0.1"/>
+    <mimic joint="r_finger_inner_joint" multiplier="1.0" offset="0.0"/>
+  </joint>
+  <link name="r_finger_outer">
+    <visual>
+      <geometry><mesh filename="package://robothath_description/meshes/r_finger_outer.stl"/></geometry>
+      <material name="steel"/>
+    </visual>
+    <collision>
+      <geometry><mesh filename="package://robothath_description/meshes/r_finger_outer.stl"/></geometry>
+    </collision>
+    <inertial>
+      <origin xyz="-0.00035 0.00003 -0.03766" rpy="0 0 0"/>
+      <mass value="0.3767"/>
+      <inertia ixx="0.000316" ixy="-0.000003" ixz="0.000019" iyy="0.000334" iyz="-0.000019" izz="0.000116"/>
+    </inertial>
+  </link>
+
+</robot>

@@ -1,0 +1,256 @@
+<?xml version="1.0"?>
+<!-- robothath.urdf.xacro
+     Same robot as robothath_full.urdf, but the limb is written ONCE as a macro
+     and instantiated twice. Expand it with:
+         xacro robothath.urdf.xacro > robothath_full.urdf
+-->
+<robot name="robothath" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:property name="span"        value="0.5236"/>   <!-- limb spacing, m -->
+  <xacro:property name="upper_arm"   value="0.342"/>    <!-- shoulder->elbow, m -->
+  <xacro:property name="forearm"     value="0.275"/>    <!-- elbow->gripper, m -->
+  <xacro:property name="finger_drop" value="0.130"/>
+  <xacro:property name="mesh"        value="package://robothath_description/meshes"/>
+
+  <material name="grey">  <color rgba="0.55 0.57 0.60 1"/></material>
+  <material name="orange"><color rgba="0.78 0.35 0.15 1"/></material>
+  <material name="steel"> <color rgba="0.18 0.40 0.56 1"/></material>
+  <material name="dark">  <color rgba="0.25 0.27 0.30 1"/></material>
+
+  <!-- ============ a whole limb, written once ============
+       side       : "l" or "r"  (also selects the mesh files)
+       y_mount    : where it bolts to the chassis
+       inner_ax /
+       outer_ax   : finger opening directions (mirrored between sides)
+  -->
+  <xacro:macro name="limb" params="side y_mount inner_ax outer_ax inner_y outer_y">
+
+    <joint name="${side}_base_mount_joint" type="fixed">
+      <parent link="base_link"/>
+      <child  link="${side}_motor_mount"/>
+      <origin xyz="0 ${y_mount} 0" rpy="0 0 0"/>
+    </joint>
+    <xacro:limb_link side="${side}" part="motor_mount" colour="grey"/>
+
+    <!-- J1 yaw : axis Z, measured from the motor bore -->
+    <joint name="${side}_base_yaw_joint" type="revolute">
+      <parent link="${side}_motor_mount"/>
+      <child  link="${side}_yaw_link"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+      <limit lower="-3.1416" upper="3.1416" effort="40" velocity="3.0"/>
+    </joint>
+    <xacro:limb_link side="${side}" part="yaw_link" colour="orange"/>
+
+    <!-- J2 shoulder pitch : axis Y -->
+    <joint name="${side}_shoulder_pitch_joint" type="revolute">
+      <parent link="${side}_yaw_link"/>
+      <child  link="${side}_upper_arm_link"/>
+      <origin xyz="0 0 -0.025" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="-2.0944" upper="2.0944" effort="40" velocity="3.0"/>
+    </joint>
+    <xacro:limb_link side="${side}" part="upper_arm_link" colour="steel"/>
+
+    <!-- J3 elbow pitch : axis Y -->
+    <joint name="${side}_elbow_pitch_joint" type="revolute">
+      <parent link="${side}_upper_arm_link"/>
+      <child  link="${side}_forearm_link"/>
+      <origin xyz="-${upper_arm} 0 0" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+      <limit lower="-2.6180" upper="2.6180" effort="30" velocity="3.0"/>
+    </joint>
+    <xacro:limb_link side="${side}" part="forearm_link" colour="orange"/>
+<xacro:limb_link side="${side}" part="wrist_link" colour="steel"/>
+<joint name="${side}_wrist_joint" type="revolute">
+  <parent link="${side}_forearm_link"/>
+  <child link="${side}_wrist_link"/>
+  <origin xyz="0 0 0" rpy="0 0 0"/>
+  <axis xyz="0 1 0"/>
+  <limit lower="-3.1416" upper="3.1416" effort="20" velocity="2.0"/>
+</joint>
+    <joint name="${side}_gripper_mount_joint" type="fixed">
+      <parent link="${side}_wrist_link"/>
+      <child  link="${side}_gripper_base"/>
+      <origin xyz="0 0 -${forearm}" rpy="0 0 0"/>
+    </joint>
+    <xacro:limb_link side="${side}" part="gripper_base" colour="dark"/>
+
+    <joint name="${side}_finger_inner_joint" type="prismatic">
+      <parent link="${side}_gripper_base"/>
+      <child  link="${side}_finger_inner"/>
+      <origin xyz="0.003 ${inner_y} -${finger_drop}" rpy="0 0 0"/>
+      <axis xyz="${inner_ax}"/>
+      <limit lower="0.0" upper="0.025" effort="20" velocity="0.1"/>
+    </joint>
+    <xacro:limb_link side="${side}" part="finger_inner" colour="steel"/>
+
+    <joint name="${side}_finger_outer_joint" type="prismatic">
+      <parent link="${side}_gripper_base"/>
+      <child  link="${side}_finger_outer"/>
+      <origin xyz="0.003 ${outer_y} -${finger_drop}" rpy="0 0 0"/>
+      <axis xyz="${outer_ax}"/>
+      <limit lower="0.0" upper="0.025" effort="20" velocity="0.1"/>
+      <mimic joint="${side}_finger_inner_joint" multiplier="1.0" offset="0.0"/>
+    </joint>
+    <xacro:limb_link side="${side}" part="finger_outer" colour="steel"/>
+
+  </xacro:macro>
+
+
+  <!-- one link: mesh for visual+collision, plus the CAD-derived inertial -->
+  <xacro:macro name="limb_link" params="side part colour">
+    <link name="${side}_${part}">
+      <visual>
+        <geometry><mesh filename="${mesh}/${side}_${part}.stl"/></geometry>
+        <material name="${colour}"/>
+      </visual>
+      <collision>
+        <geometry><mesh filename="${mesh}/${side}_${part}.stl"/></geometry>
+      </collision>
+      <xacro:inertial_lookup side="${side}" part="${part}"/>
+    </link>
+  </xacro:macro>
+
+  <!-- CAD-derived mass properties, one block per side+part -->
+  <xacro:macro name="inertial_lookup" params="side part">
+    <xacro:if value="${side == 'l' and part == 'motor_mount'}">
+      <inertial>
+        <origin xyz="0.00000 0.00005 -0.00172" rpy="0 0 0"/>
+        <mass value="0.4243"/>
+        <inertia ixx="0.000181" ixy="0.000000" ixz="0.000000" iyy="0.000182" iyz="0.000000" izz="0.000285"/>
+      </inertial>
+    </xacro:if>
+    <xacro:if value="${side == 'l' and part == 'yaw_link'}">
+      <inertial>
+        <origin xyz="0.00377 0.05427 -0.02738" rpy="0 0 0"/>
+        <mass value="1.4721"/>
+        <inertia ixx="0.001939" ixy="0.000005" ixz="-0.000016" iyy="0.001448" iyz="0.000037" izz="0.001804"/>
+      </inertial>
+    </xacro:if>
+    <xacro:if value="${side == 'l' and part == 'upper_arm_link'}">
+      <inertial>
+        <origin xyz="-0.22785 0.00304 -0.00424" rpy="0 0 0"/>
+        <mass value="2.3086"/>
+        <inertia ixx="0.003372" ixy="-0.000011" ixz="0.000004" iyy="0.003511" iyz="0.000013" izz="0.003458"/>
+      </inertial>
+    </xacro:if>
+    <xacro:if value="${side == 'l' and part == 'forearm_link'}">
+      <inertial>
+        <origin xyz="-0.00042 0.00277 -0.21218" rpy="0 0 0"/>
+        <mass value="0.7675"/>
+        <inertia ixx="0.001477" ixy="-0.000000" ixz="0.000001" iyy="0.001400" iyz="0.000004" izz="0.000482"/>
+      </inertial>
+    </xacro:if>
+    <xacro:if value="${side == 'l' and part == 'gripper_base'}">
+      <inertial>
+        <origin xyz="0.00260 0.00526 -0.08510" rpy="0 0 0"/>
+        <mass value="0.9586"/>
+        <inertia ixx="0.001854" ixy="-0.000000" ixz="-0.000000" iyy="0.000447" iyz="-0.000000" izz="0.001879"/>
+      </inertial>
+    </xacro:if>
+    <xacro:if value="${side == 'l' and part == 'finger_inner'}">
+      <inertial>
+        <origin xyz="0.00042 0.00001 -0.03766" rpy="0 0 0"/>
+        <mass value="0.3767"/>
+        <inertia ixx="0.000316" ixy="0.000003" ixz="-0.000019" iyy="0.000334" iyz="-0.000019" izz="0.000116"/>
+      </inertial>
+    </xacro:if>
+    <xacro:if value="${side == 'l' and part == 'finger_outer'}">
+      <inertial>
+        <origin xyz="-0.00035 -0.00002 -0.03766" rpy="0 0 0"/>
+        <mass value="0.3767"/>
+        <inertia ixx="0.000316" ixy="0.000003" ixz="0.000019" iyy="0.000334" iyz="0.000019" izz="0.000116"/>
+      </inertial>
+    </xacro:if>
+    <xacro:if value="${side == 'r' and part == 'motor_mount'}">
+      <inertial>
+        <origin xyz="0.00000 -0.00004 -0.00172" rpy="0 0 0"/>
+        <mass value="0.4243"/>
+        <inertia ixx="0.000181" ixy="-0.000000" ixz="0.000000" iyy="0.000182" iyz="-0.000000" izz="0.000285"/>
+      </inertial>
+    </xacro:if>
+    <xacro:if value="${side == 'r' and part == 'yaw_link'}">
+      <inertial>
+        <origin xyz="0.00377 -0.05425 -0.02738" rpy="0 0 0"/>
+        <mass value="1.4721"/>
+        <inertia ixx="0.001939" ixy="-0.000005" ixz="-0.000016" iyy="0.001448" iyz="-0.000037" izz="0.001804"/>
+      </inertial>
+    </xacro:if>
+    <xacro:if value="${side == 'r' and part == 'upper_arm_link'}">
+      <inertial>
+        <origin xyz="-0.22785 -0.00303 -0.00424" rpy="0 0 0"/>
+        <mass value="2.3086"/>
+        <inertia ixx="0.003372" ixy="0.000011" ixz="0.000004" iyy="0.003511" iyz="-0.000013" izz="0.003458"/>
+      </inertial>
+    </xacro:if>
+    <xacro:if value="${side == 'r' and part == 'forearm_link'}">
+      <inertial>
+        <origin xyz="-0.00042 -0.00276 -0.21218" rpy="0 0 0"/>
+        <mass value="0.7675"/>
+        <inertia ixx="0.001477" ixy="0.000000" ixz="0.000001" iyy="0.001400" iyz="-0.000004" izz="0.000482"/>
+      </inertial>
+    </xacro:if>
+    <xacro:if value="${side == 'r' and part == 'gripper_base'}">
+      <inertial>
+        <origin xyz="0.00260 -0.00525 -0.08510" rpy="0 0 0"/>
+        <mass value="0.9586"/>
+        <inertia ixx="0.001854" ixy="0.000000" ixz="-0.000000" iyy="0.000447" iyz="0.000000" izz="0.001879"/>
+      </inertial>
+    </xacro:if>
+    <xacro:if value="${side == 'r' and part == 'finger_inner'}">
+      <inertial>
+        <origin xyz="0.00042 -0.00000 -0.03766" rpy="0 0 0"/>
+        <mass value="0.3767"/>
+        <inertia ixx="0.000316" ixy="-0.000003" ixz="-0.000019" iyy="0.000334" iyz="0.000019" izz="0.000116"/>
+      </inertial>
+    </xacro:if>
+    <xacro:if value="${side == 'r' and part == 'finger_outer'}">
+      <inertial>
+        <origin xyz="-0.00035 0.00003 -0.03766" rpy="0 0 0"/>
+        <mass value="0.3767"/>
+        <inertia ixx="0.000316" ixy="-0.000003" ixz="0.000019" iyy="0.000334" iyz="-0.000019" izz="0.000116"/>
+      </inertial>
+    </xacro:if>
+  </xacro:macro>
+
+
+  <!-- Massless dummy root. KDL cannot carry an inertia on the root link, so the
+       chassis inertia would be silently dropped if base_link were the root.
+       base_footprint holds no mass; base_link keeps the real chassis inertia. -->
+  <link name="base_footprint"/>
+
+  <joint name="base_footprint_joint" type="fixed">
+    <parent link="base_footprint"/>
+    <child  link="base_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- ============ chassis ============
+       The CAD body is a solid 1500x300x200 block; as solid aluminium that is
+       197 kg. Overridden to 20 kg (~5 mm wall). -->
+  <link name="base_link">
+    <visual>
+      <geometry><mesh filename="${mesh}/base_link.stl"/></geometry>
+      <material name="dark"/>
+    </visual>
+    <collision>
+      <geometry><mesh filename="${mesh}/base_link.stl"/></geometry>
+    </collision>
+    <inertial>
+      <origin xyz="-0.59917 0.26181 -0.00791" rpy="0 0 0"/>
+      <mass value="20.0000"/>
+      <inertia ixx="0.189936" ixy="0.000000" ixz="-0.001891" iyy="3.346280" iyz="0.000000" izz="3.401775"/>
+    </inertial>
+  </link>
+
+  <!-- ============ instantiate both limbs ============ -->
+  <xacro:limb side="l" y_mount="0"        inner_ax="0 1 0"  outer_ax="0 -1 0" inner_y="0.0223"  outer_y="-0.0175"/>
+  <xacro:limb side="r" y_mount="${span}"  inner_ax="0 -1 0" outer_ax="0 1 0"  inner_y="-0.0223" outer_y="0.0175"/>
+
+
+  <!-- Gazebo / ros2_control -->
+  <xacro:include filename="$(find robothath_description)/urdf/robothath.ros2_control.xacro"/>
+  <xacro:robothath_ros2_control/>
+
+</robot>

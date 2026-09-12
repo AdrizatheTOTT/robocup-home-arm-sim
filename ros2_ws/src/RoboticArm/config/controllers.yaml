@@ -1,0 +1,68 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 250
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    left_arm_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+    right_arm_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+    left_gripper_controller:
+      type: forward_command_controller/ForwardCommandController
+
+    right_gripper_controller:
+      type: forward_command_controller/ForwardCommandController
+
+
+left_arm_controller:
+  ros__parameters:
+    joints:
+      - l_base_yaw_joint
+      - l_shoulder_pitch_joint
+      - l_elbow_pitch_joint
+      - l_wrist_joint
+
+    command_interfaces:
+      - position
+
+    state_interfaces:
+      - position
+      - velocity
+
+    allow_partial_joints_goal: false
+
+
+right_arm_controller:
+  ros__parameters:
+    joints:
+      - r_base_yaw_joint
+      - r_shoulder_pitch_joint
+      - r_elbow_pitch_joint
+      - r_wrist_joint
+
+    command_interfaces:
+      - position
+
+    state_interfaces:
+      - position
+      - velocity
+
+    allow_partial_joints_goal: false
+
+
+left_gripper_controller:
+  ros__parameters:
+    joints:
+      - l_finger_inner_joint
+    interface_name: position
+
+
+right_gripper_controller:
+  ros__parameters:
+    joints:
+      - r_finger_inner_joint
+    interface_name: position
