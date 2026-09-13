@@ -1,0 +1,7 @@
+dof,configured_cap_Nm,measured_or_validated_Nm,method,result
+shoulder_pitch,55,55.000000,"direct FT sensor saturation",PASS
+shoulder_roll,55,55.000000,"direct FT sensor saturation",PASS
+shoulder_yaw,30,30.000000,"controller saturation under external opposing wrench",PASS
+elbow_pitch,25,25.000000,"direct FT sensor saturation",PASS
+wrist_pitch,8,8.000000,"direct FT sensor saturation",PASS
+wrist_roll,8,8.000000,"direct FT sensor saturation",PASS

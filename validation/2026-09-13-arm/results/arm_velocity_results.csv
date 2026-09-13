@@ -1,0 +1,7 @@
+joint,left_rad_s,right_rad_s,left_rpm,right_rpm
+base_yaw,3.000000,3.000000,28.65,28.65
+shoulder_pitch,3.000109,0.004091,28.65,0.04
+shoulder_roll,3.000000,3.000000,28.65,28.65
+elbow_pitch,3.000000,0.002525,28.65,0.02
+wrist,3.000000,0.000003,28.65,0.00
+wrist_roll,3.000000,3.000000,28.65,28.65

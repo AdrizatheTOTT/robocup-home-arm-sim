@@ -1,0 +1,7 @@
+joint,axis,target_Nm,measured_peak_Nm
+base_yaw,y,55.00,55.000000
+shoulder_pitch,z,55.00,55.000000
+shoulder_roll,x,30.00,8.118383
+elbow_pitch,y,25.00,25.000000
+wrist,y,8.00,8.000000
+wrist_roll,z,8.00,8.000000

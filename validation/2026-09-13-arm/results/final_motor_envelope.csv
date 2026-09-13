@@ -1,0 +1,7 @@
+dof,gazebo_controller,payload_kg,validated_output_torque_Nm,validated_velocity_rad_s,validated_velocity_RPM,static_pose_test,torque_validation,result
+shoulder_pitch,base_yaw,2.5,55,3.0,28.65,"90deg;120deg","direct FT saturation",PASS
+shoulder_roll,shoulder_pitch,2.5,55,3.0,28.65,"60deg","direct FT saturation",PASS
+shoulder_yaw,shoulder_roll,2.5,30,3.0,28.65,"60deg","controller saturation under external opposing wrench",PASS
+elbow_pitch,elbow_pitch,2.5,25,3.0,28.65,"90deg","direct FT saturation",PASS
+wrist_pitch,wrist,2.5,8,3.0,28.65,"90deg","direct FT saturation",PASS
+wrist_roll,wrist_roll,2.5,8,3.0,28.65,"90deg","direct FT saturation",PASS
