@@ -1,0 +1,949 @@
+<?xml version='1.0' encoding='utf-8'?>
+<sdf version="1.11">
+  <model name="robothath">
+    <link name="base_footprint">
+      <inertial>
+        <pose>-0.57478199975058286 0.26180979648513569 -0.0076580485979873963 0 0 0</pose>
+        <mass>20.848600000000001</mass>
+        <inertia>
+          <ixx>0.24847159767313459</ixx>
+          <ixy>2.4388000237074441e-06</ixy>
+          <ixz>-0.0049102344308778328</ixz>
+          <iyy>3.6389263537724319</iyy>
+          <iyz>2.519514018251012e-08</iyz>
+          <izz>3.75273856827843</izz>
+        </inertia>
+      </inertial>
+      <collision name="base_footprint_fixed_joint_lump__base_link_collision">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robothath_description/meshes/base_link.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name="base_footprint_fixed_joint_lump__l_motor_mount_collision_1">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robothath_description/meshes/l_motor_mount.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name="base_footprint_fixed_joint_lump__r_motor_mount_collision_2">
+        <pose>0 0.52359999999999995 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robothath_description/meshes/r_motor_mount.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="base_footprint_fixed_joint_lump__base_link_visual">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robothath_description/meshes/base_link.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.3125 0.337500006 0.37500003 1</diffuse>
+          <ambient>0.3125 0.337500006 0.37500003 1</ambient>
+        </material>
+      </visual>
+      <visual name="base_footprint_fixed_joint_lump__l_motor_mount_visual_1">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robothath_description/meshes/l_motor_mount.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.6875 0.712499976 0.75000006 1</diffuse>
+          <ambient>0.6875 0.712499976 0.75000006 1</ambient>
+        </material>
+      </visual>
+      <visual name="base_footprint_fixed_joint_lump__r_motor_mount_visual_2">
+        <pose>0 0.52359999999999995 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robothath_description/meshes/r_motor_mount.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.6875 0.712499976 0.75000006 1</diffuse>
+          <ambient>0.6875 0.712499976 0.75000006 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name="l_base_yaw_joint" type="revolute">
+      <pose relative_to="base_footprint">0 0 0 0 0 0</pose>
+      <parent>base_footprint</parent>
+      <child>l_yaw_link</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-3.1415999999999999</lower>
+          <upper>3.1415999999999999</upper>
+          <effort>40</effort>
+          <velocity>3</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name="l_yaw_link">
+      <pose relative_to="l_base_yaw_joint">0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0.0037699999999999999 0.054269999999999999 -0.027380000000000002 0 0 0</pose>
+        <mass>1.4721</mass>
+        <inertia>
+          <ixx>0.001939</ixx>
+          <ixy>5.0000000000000004e-06</ixy>
+          <ixz>-1.5999999999999999e-05</ixz>
+          <iyy>0.0014480000000000001</iyy>
+          <iyz>3.6999999999999998e-05</iyz>
+          <izz>0.001804</izz>
+        </inertia>
+      </inertial>
+      <collision name="l_yaw_link_collision">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robothath_description/meshes/l_yaw_link.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="l_yaw_link_visual">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robothath_description/meshes/l_yaw_link.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.974999964 0.4375 0.187500015 1</diffuse>
+          <ambient>0.974999964 0.4375 0.187500015 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name="l_shoulder_pitch_joint" type="revolute">
+      <pose relative_to="l_yaw_link">0 0 -0.025000000000000001 0 0 0</pose>
+      <parent>l_yaw_link</parent>
+      <child>l_shoulder_link</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-2.0943999999999998</lower>
+          <upper>2.0943999999999998</upper>
+          <effort>40</effort>
+          <velocity>3</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name="l_shoulder_link">
+      <pose relative_to="l_shoulder_pitch_joint">0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>0.001</mass>
+        <inertia>
+          <ixx>9.9999999999999995e-07</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>9.9999999999999995e-07</iyy>
+          <iyz>0</iyz>
+          <izz>9.9999999999999995e-07</izz>
+        </inertia>
+      </inertial>
+    </link>
+    <joint name="l_shoulder_roll_joint" type="revolute">
+      <pose relative_to="l_shoulder_link">0 0 0 0 0 0</pose>
+      <parent>l_shoulder_link</parent>
+      <child>l_upper_arm_link</child>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit>
+          <lower>-2.0943999999999998</lower>
+          <upper>2.0943999999999998</upper>
+          <effort>40</effort>
+          <velocity>3</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name="l_upper_arm_link">
+      <pose relative_to="l_shoulder_roll_joint">0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>-0.22785 0.0030400000000000002 -0.0042399999999999998 0 0 0</pose>
+        <mass>2.3086000000000002</mass>
+        <inertia>
+          <ixx>0.003372</ixx>
+          <ixy>-1.1e-05</ixy>
+          <ixz>3.9999999999999998e-06</ixz>
+          <iyy>0.0035109999999999998</iyy>
+          <iyz>1.2999999999999999e-05</iyz>
+          <izz>0.0034580000000000001</izz>
+        </inertia>
+      </inertial>
+      <collision name="l_upper_arm_link_collision">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robothath_description/meshes/l_upper_arm_link.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="l_upper_arm_link_visual">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robothath_description/meshes/l_upper_arm_link.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.225000009 0.5 0.699999988 1</diffuse>
+          <ambient>0.225000009 0.5 0.699999988 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name="l_elbow_pitch_joint" type="revolute">
+      <pose relative_to="l_upper_arm_link">-0.34200000000000003 0 0 0 0 0</pose>
+      <parent>l_upper_arm_link</parent>
+      <child>l_forearm_link</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-2.6179999999999999</lower>
+          <upper>2.6179999999999999</upper>
+          <effort>30</effort>
+          <velocity>3</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name="l_forearm_link">
+      <pose relative_to="l_elbow_pitch_joint">0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>-0.00038999999999999999 0.0025600000000000002 -0.18329000000000001 0 0 0</pose>
+        <mass>0.58879999999999999</mass>
+        <inertia>
+          <ixx>0.0014189999999999999</ixx>
+          <ixy>0</ixy>
+          <ixz>9.9999999999999995e-07</ixz>
+          <iyy>0.001354</iyy>
+          <iyz>3.9999999999999998e-06</iyz>
+          <izz>0.00044200000000000001</izz>
+        </inertia>
+      </inertial>
+      <collision name="l_forearm_link_collision">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robothath_description/meshes/l_forearm_link.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="l_forearm_link_visual">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robothath_description/meshes/l_forearm_link.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.974999964 0.4375 0.187500015 1</diffuse>
+          <ambient>0.974999964 0.4375 0.187500015 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name="l_wrist_joint" type="revolute">
+      <pose relative_to="l_forearm_link">-0.00029999999999999997 0 -0.25800000000000001 0 0 0</pose>
+      <parent>l_forearm_link</parent>
+      <child>l_wrist_link</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1.5708</lower>
+          <upper>1.5708</upper>
+          <effort>20</effort>
+          <velocity>3</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name="l_wrist_link">
+      <pose relative_to="l_wrist_joint">0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>-0.00020000000000000001 0.0034499999999999999 -0.049399999999999999 0 0 0</pose>
+        <mass>0.1787</mass>
+        <inertia>
+          <ixx>5.7000000000000003e-05</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>4.6e-05</iyy>
+          <iyz>0</iyz>
+          <izz>4.0000000000000003e-05</izz>
+        </inertia>
+      </inertial>
+      <collision name="l_wrist_link_collision">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robothath_description/meshes/l_wrist_link.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="l_wrist_link_visual">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robothath_description/meshes/l_wrist_link.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.25 0.6875 0.5 1</diffuse>
+          <ambient>0.25 0.6875 0.5 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name="l_wrist_roll_joint" type="revolute">
+      <pose relative_to="l_wrist_link">-0.00020000000000000001 0.0033999999999999998 -0.075999999999999998 0 0 0</pose>
+      <parent>l_wrist_link</parent>
+      <child>l_gripper_base</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-3.1415999999999999</lower>
+          <upper>3.1415999999999999</upper>
+          <effort>10</effort>
+          <velocity>3</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name="l_gripper_base">
+      <pose relative_to="l_wrist_roll_joint">0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0.0030999999999999999 0.0018600000000000001 -0.026100000000000002 0 0 0</pose>
+        <mass>0.95860000000000001</mass>
+        <inertia>
+          <ixx>0.001854</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.00044700000000000002</iyy>
+          <iyz>0</iyz>
+          <izz>0.001879</izz>
+        </inertia>
+      </inertial>
+      <collision name="l_gripper_base_collision">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robothath_description/meshes/l_gripper_base.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="l_gripper_base_visual">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robothath_description/meshes/l_gripper_base.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.3125 0.337500006 0.37500003 1</diffuse>
+          <ambient>0.3125 0.337500006 0.37500003 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name="l_finger_inner_joint" type="prismatic">
+      <pose relative_to="l_gripper_base">0.0035000000000000001 0.0189 -0.070999999999999994 0 0 0</pose>
+      <parent>l_gripper_base</parent>
+      <child>l_finger_inner</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>0</lower>
+          <upper>0.025000000000000001</upper>
+          <effort>20</effort>
+          <velocity>0.10000000000000001</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name="l_finger_inner">
+      <pose relative_to="l_finger_inner_joint">0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0.00042000000000000002 1.0000000000000001e-05 -0.037659999999999999 0 0 0</pose>
+        <mass>0.37669999999999998</mass>
+        <inertia>
+          <ixx>0.00031599999999999998</ixx>
+          <ixy>3.0000000000000001e-06</ixy>
+          <ixz>-1.9000000000000001e-05</ixz>
+          <iyy>0.00033399999999999999</iyy>
+          <iyz>-1.9000000000000001e-05</iyz>
+          <izz>0.000116</izz>
+        </inertia>
+      </inertial>
+      <collision name="l_finger_inner_collision">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robothath_description/meshes/l_finger_inner.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="l_finger_inner_visual">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robothath_description/meshes/l_finger_inner.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.225000009 0.5 0.699999988 1</diffuse>
+          <ambient>0.225000009 0.5 0.699999988 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name="l_finger_outer_joint" type="prismatic">
+      <pose relative_to="l_gripper_base">0.0035000000000000001 -0.020899999999999998 -0.070999999999999994 0 0 0</pose>
+      <parent>l_gripper_base</parent>
+      <child>l_finger_outer</child>
+      <axis>
+        <xyz>0 -1 0</xyz>
+        <mimic joint="l_finger_inner_joint">
+          <multiplier>1</multiplier>
+          <offset>0</offset>
+          <reference>0</reference>
+        </mimic>
+        <limit>
+          <lower>0</lower>
+          <upper>0.025000000000000001</upper>
+          <effort>20</effort>
+          <velocity>0.10000000000000001</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name="l_finger_outer">
+      <pose relative_to="l_finger_outer_joint">0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>-0.00035 -2.0000000000000002e-05 -0.037659999999999999 0 0 0</pose>
+        <mass>0.37669999999999998</mass>
+        <inertia>
+          <ixx>0.00031599999999999998</ixx>
+          <ixy>3.0000000000000001e-06</ixy>
+          <ixz>1.9000000000000001e-05</ixz>
+          <iyy>0.00033399999999999999</iyy>
+          <iyz>1.9000000000000001e-05</iyz>
+          <izz>0.000116</izz>
+        </inertia>
+      </inertial>
+      <collision name="l_finger_outer_collision">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robothath_description/meshes/l_finger_outer.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="l_finger_outer_visual">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robothath_description/meshes/l_finger_outer.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.225000009 0.5 0.699999988 1</diffuse>
+          <ambient>0.225000009 0.5 0.699999988 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name="r_base_yaw_joint" type="revolute">
+      <pose relative_to="base_footprint">0 0.52359999999999995 0 0 0 0</pose>
+      <parent>base_footprint</parent>
+      <child>r_yaw_link</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-3.1415999999999999</lower>
+          <upper>3.1415999999999999</upper>
+          <effort>40</effort>
+          <velocity>3</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name="r_yaw_link">
+      <pose relative_to="r_base_yaw_joint">0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0.0037699999999999999 -0.05425 -0.027380000000000002 0 0 0</pose>
+        <mass>1.4721</mass>
+        <inertia>
+          <ixx>0.001939</ixx>
+          <ixy>-5.0000000000000004e-06</ixy>
+          <ixz>-1.5999999999999999e-05</ixz>
+          <iyy>0.0014480000000000001</iyy>
+          <iyz>-3.6999999999999998e-05</iyz>
+          <izz>0.001804</izz>
+        </inertia>
+      </inertial>
+      <collision name="r_yaw_link_collision">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robothath_description/meshes/r_yaw_link.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="r_yaw_link_visual">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robothath_description/meshes/r_yaw_link.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.974999964 0.4375 0.187500015 1</diffuse>
+          <ambient>0.974999964 0.4375 0.187500015 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name="r_shoulder_pitch_joint" type="revolute">
+      <pose relative_to="r_yaw_link">0 0 -0.025000000000000001 0 0 0</pose>
+      <parent>r_yaw_link</parent>
+      <child>r_shoulder_link</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-2.0943999999999998</lower>
+          <upper>2.0943999999999998</upper>
+          <effort>40</effort>
+          <velocity>3</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name="r_shoulder_link">
+      <pose relative_to="r_shoulder_pitch_joint">0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>0.001</mass>
+        <inertia>
+          <ixx>9.9999999999999995e-07</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>9.9999999999999995e-07</iyy>
+          <iyz>0</iyz>
+          <izz>9.9999999999999995e-07</izz>
+        </inertia>
+      </inertial>
+    </link>
+    <joint name="r_shoulder_roll_joint" type="revolute">
+      <pose relative_to="r_shoulder_link">0 0 0 0 0 0</pose>
+      <parent>r_shoulder_link</parent>
+      <child>r_upper_arm_link</child>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit>
+          <lower>-2.0943999999999998</lower>
+          <upper>2.0943999999999998</upper>
+          <effort>40</effort>
+          <velocity>3</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name="r_upper_arm_link">
+      <pose relative_to="r_shoulder_roll_joint">0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>-0.22785 -0.0030300000000000001 -0.0042399999999999998 0 0 0</pose>
+        <mass>2.3086000000000002</mass>
+        <inertia>
+          <ixx>0.003372</ixx>
+          <ixy>1.1e-05</ixy>
+          <ixz>3.9999999999999998e-06</ixz>
+          <iyy>0.0035109999999999998</iyy>
+          <iyz>-1.2999999999999999e-05</iyz>
+          <izz>0.0034580000000000001</izz>
+        </inertia>
+      </inertial>
+      <collision name="r_upper_arm_link_collision">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robothath_description/meshes/r_upper_arm_link.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="r_upper_arm_link_visual">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robothath_description/meshes/r_upper_arm_link.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.225000009 0.5 0.699999988 1</diffuse>
+          <ambient>0.225000009 0.5 0.699999988 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name="r_elbow_pitch_joint" type="revolute">
+      <pose relative_to="r_upper_arm_link">-0.34200000000000003 0 0 0 0 0</pose>
+      <parent>r_upper_arm_link</parent>
+      <child>r_forearm_link</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-2.6179999999999999</lower>
+          <upper>2.6179999999999999</upper>
+          <effort>30</effort>
+          <velocity>3</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name="r_forearm_link">
+      <pose relative_to="r_elbow_pitch_joint">0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>-0.00038999999999999999 -0.0025500000000000002 -0.18329000000000001 0 0 0</pose>
+        <mass>0.58879999999999999</mass>
+        <inertia>
+          <ixx>0.0014189999999999999</ixx>
+          <ixy>0</ixy>
+          <ixz>9.9999999999999995e-07</ixz>
+          <iyy>0.001354</iyy>
+          <iyz>-3.9999999999999998e-06</iyz>
+          <izz>0.00044200000000000001</izz>
+        </inertia>
+      </inertial>
+      <collision name="r_forearm_link_collision">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robothath_description/meshes/r_forearm_link.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="r_forearm_link_visual">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robothath_description/meshes/r_forearm_link.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.974999964 0.4375 0.187500015 1</diffuse>
+          <ambient>0.974999964 0.4375 0.187500015 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name="r_wrist_joint" type="revolute">
+      <pose relative_to="r_forearm_link">-0.00029999999999999997 0 -0.25800000000000001 0 0 0</pose>
+      <parent>r_forearm_link</parent>
+      <child>r_wrist_link</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1.5708</lower>
+          <upper>1.5708</upper>
+          <effort>20</effort>
+          <velocity>3</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name="r_wrist_link">
+      <pose relative_to="r_wrist_joint">0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>-0.00020000000000000001 -0.0034399999999999999 -0.049399999999999999 0 0 0</pose>
+        <mass>0.1787</mass>
+        <inertia>
+          <ixx>5.7000000000000003e-05</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>4.6e-05</iyy>
+          <iyz>0</iyz>
+          <izz>4.0000000000000003e-05</izz>
+        </inertia>
+      </inertial>
+      <collision name="r_wrist_link_collision">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robothath_description/meshes/r_wrist_link.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="r_wrist_link_visual">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robothath_description/meshes/r_wrist_link.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.25 0.6875 0.5 1</diffuse>
+          <ambient>0.25 0.6875 0.5 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name="r_wrist_roll_joint" type="revolute">
+      <pose relative_to="r_wrist_link">-0.00020000000000000001 -0.0033999999999999998 -0.075999999999999998 0 0 0</pose>
+      <parent>r_wrist_link</parent>
+      <child>r_gripper_base</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-3.1415999999999999</lower>
+          <upper>3.1415999999999999</upper>
+          <effort>10</effort>
+          <velocity>3</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name="r_gripper_base">
+      <pose relative_to="r_wrist_roll_joint">0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0.0030999999999999999 -0.0018500000000000001 -0.026100000000000002 0 0 0</pose>
+        <mass>0.95860000000000001</mass>
+        <inertia>
+          <ixx>0.001854</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.00044700000000000002</iyy>
+          <iyz>0</iyz>
+          <izz>0.001879</izz>
+        </inertia>
+      </inertial>
+      <collision name="r_gripper_base_collision">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robothath_description/meshes/r_gripper_base.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="r_gripper_base_visual">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robothath_description/meshes/r_gripper_base.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.3125 0.337500006 0.37500003 1</diffuse>
+          <ambient>0.3125 0.337500006 0.37500003 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name="r_finger_inner_joint" type="prismatic">
+      <pose relative_to="r_gripper_base">0.0035000000000000001 -0.0189 -0.070999999999999994 0 0 0</pose>
+      <parent>r_gripper_base</parent>
+      <child>r_finger_inner</child>
+      <axis>
+        <xyz>0 -1 0</xyz>
+        <limit>
+          <lower>0</lower>
+          <upper>0.025000000000000001</upper>
+          <effort>20</effort>
+          <velocity>0.10000000000000001</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name="r_finger_inner">
+      <pose relative_to="r_finger_inner_joint">0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0.00042000000000000002 0 -0.037659999999999999 0 0 0</pose>
+        <mass>0.37669999999999998</mass>
+        <inertia>
+          <ixx>0.00031599999999999998</ixx>
+          <ixy>-3.0000000000000001e-06</ixy>
+          <ixz>-1.9000000000000001e-05</ixz>
+          <iyy>0.00033399999999999999</iyy>
+          <iyz>1.9000000000000001e-05</iyz>
+          <izz>0.000116</izz>
+        </inertia>
+      </inertial>
+      <collision name="r_finger_inner_collision">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robothath_description/meshes/r_finger_inner.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="r_finger_inner_visual">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robothath_description/meshes/r_finger_inner.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.225000009 0.5 0.699999988 1</diffuse>
+          <ambient>0.225000009 0.5 0.699999988 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name="r_finger_outer_joint" type="prismatic">
+      <pose relative_to="r_gripper_base">0.0035000000000000001 0.020899999999999998 -0.070999999999999994 0 0 0</pose>
+      <parent>r_gripper_base</parent>
+      <child>r_finger_outer</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <mimic joint="r_finger_inner_joint">
+          <multiplier>1</multiplier>
+          <offset>0</offset>
+          <reference>0</reference>
+        </mimic>
+        <limit>
+          <lower>0</lower>
+          <upper>0.025000000000000001</upper>
+          <effort>20</effort>
+          <velocity>0.10000000000000001</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name="r_finger_outer">
+      <pose relative_to="r_finger_outer_joint">0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>-0.00035 3.0000000000000001e-05 -0.037659999999999999 0 0 0</pose>
+        <mass>0.37669999999999998</mass>
+        <inertia>
+          <ixx>0.00031599999999999998</ixx>
+          <ixy>-3.0000000000000001e-06</ixy>
+          <ixz>1.9000000000000001e-05</ixz>
+          <iyy>0.00033399999999999999</iyy>
+          <iyz>-1.9000000000000001e-05</iyz>
+          <izz>0.000116</izz>
+        </inertia>
+      </inertial>
+      <collision name="r_finger_outer_collision">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robothath_description/meshes/r_finger_outer.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="r_finger_outer_visual">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robothath_description/meshes/r_finger_outer.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.225000009 0.5 0.699999988 1</diffuse>
+          <ambient>0.225000009 0.5 0.699999988 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <frame name="l_base_mount_joint" attached_to="base_link">
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name="l_motor_mount" attached_to="l_base_mount_joint">
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name="r_base_mount_joint" attached_to="base_link">
+      <pose>0 0.52359999999999995 0 0 0 0</pose>
+    </frame>
+    <frame name="r_motor_mount" attached_to="r_base_mount_joint">
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name="base_footprint_joint" attached_to="base_footprint">
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name="base_link" attached_to="base_footprint_joint">
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+  <joint name="world_fixed" type="fixed"><parent>world</parent><child>base_footprint</child></joint><plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController"><joint_name>l_base_yaw_joint</joint_name><topic>/robothath/l_base_yaw/cmd_pos</topic><initial_position>0.0</initial_position><p_gain>45.0</p_gain><i_gain>0.0</i_gain><d_gain>1.5</d_gain><cmd_max>40.0</cmd_max><cmd_min>-40.0</cmd_min></plugin><plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController"><joint_name>l_shoulder_pitch_joint</joint_name><topic>/robothath/l_shoulder_pitch/cmd_pos</topic><initial_position>0.0</initial_position><p_gain>50.0</p_gain><i_gain>0.0</i_gain><d_gain>2.0</d_gain><cmd_max>40.0</cmd_max><cmd_min>-40.0</cmd_min></plugin><plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController"><joint_name>l_shoulder_roll_joint</joint_name><topic>/robothath/l_shoulder_roll/cmd_pos</topic><initial_position>0.0</initial_position><p_gain>50.0</p_gain><i_gain>0.0</i_gain><d_gain>2.0</d_gain><cmd_max>40.0</cmd_max><cmd_min>-40.0</cmd_min></plugin><plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController"><joint_name>l_elbow_pitch_joint</joint_name><topic>/robothath/l_elbow_pitch/cmd_pos</topic><initial_position>0.0</initial_position><p_gain>40.0</p_gain><i_gain>0.0</i_gain><d_gain>1.5</d_gain><cmd_max>25.0</cmd_max><cmd_min>-25.0</cmd_min></plugin><plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController"><joint_name>l_wrist_joint</joint_name><topic>/robothath/l_wrist/cmd_pos</topic><initial_position>0.0</initial_position><p_gain>20.0</p_gain><i_gain>0.0</i_gain><d_gain>0.8</d_gain><cmd_max>8.0</cmd_max><cmd_min>-8.0</cmd_min></plugin><plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController"><joint_name>l_wrist_roll_joint</joint_name><topic>/robothath/l_wrist_roll/cmd_pos</topic><initial_position>0.0</initial_position><p_gain>20.0</p_gain><i_gain>0.0</i_gain><d_gain>0.8</d_gain><cmd_max>8.0</cmd_max><cmd_min>-8.0</cmd_min></plugin><plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController"><joint_name>r_base_yaw_joint</joint_name><topic>/robothath/r_base_yaw/cmd_pos</topic><initial_position>0.0</initial_position><p_gain>45.0</p_gain><i_gain>0.0</i_gain><d_gain>1.5</d_gain><cmd_max>40.0</cmd_max><cmd_min>-40.0</cmd_min></plugin><plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController"><joint_name>r_shoulder_pitch_joint</joint_name><topic>/robothath/r_shoulder_pitch/cmd_pos</topic><initial_position>0.0</initial_position><p_gain>50.0</p_gain><i_gain>0.0</i_gain><d_gain>2.0</d_gain><cmd_max>40.0</cmd_max><cmd_min>-40.0</cmd_min></plugin><plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController"><joint_name>r_shoulder_roll_joint</joint_name><topic>/robothath/r_shoulder_roll/cmd_pos</topic><initial_position>0.0</initial_position><p_gain>50.0</p_gain><i_gain>0.0</i_gain><d_gain>2.0</d_gain><cmd_max>40.0</cmd_max><cmd_min>-40.0</cmd_min></plugin><plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController"><joint_name>r_elbow_pitch_joint</joint_name><topic>/robothath/r_elbow_pitch/cmd_pos</topic><initial_position>0.0</initial_position><p_gain>40.0</p_gain><i_gain>0.0</i_gain><d_gain>1.5</d_gain><cmd_max>25.0</cmd_max><cmd_min>-25.0</cmd_min></plugin><plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController"><joint_name>r_wrist_joint</joint_name><topic>/robothath/r_wrist/cmd_pos</topic><initial_position>0.0</initial_position><p_gain>20.0</p_gain><i_gain>0.0</i_gain><d_gain>0.8</d_gain><cmd_max>8.0</cmd_max><cmd_min>-8.0</cmd_min></plugin><plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController"><joint_name>r_wrist_roll_joint</joint_name><topic>/robothath/r_wrist_roll/cmd_pos</topic><initial_position>0.0</initial_position><p_gain>20.0</p_gain><i_gain>0.0</i_gain><d_gain>0.8</d_gain><cmd_max>8.0</cmd_max><cmd_min>-8.0</cmd_min></plugin><plugin filename="gz-sim-joint-state-publisher-system" name="gz::sim::systems::JointStatePublisher"><topic>/robothath/joint_state</topic></plugin></model>
+</sdf>
